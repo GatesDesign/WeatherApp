@@ -9,17 +9,17 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap"
         rel="stylesheet">
-    <!-- PWA Manifest -->
+    
     <link rel="manifest" href="manifest.json">
 
-    <!-- External Libraries -->
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
         :root {
-            /* Light Theme Variables */
+            
             --primary: #4a6fa5;
             --secondary: #166088;
             --accent: #32a1ce;
@@ -43,7 +43,7 @@
         }
 
         [data-theme="dark"] {
-            /* Dark Theme Variables */
+            
             --primary: #6a8fc5;
             --secondary: #2a80b8;
             --accent: #4ac1ee;
@@ -84,7 +84,7 @@
             width: 100%;
         }
 
-        /* Header & Theme Toggle */
+        
         header {
             text-align: center;
             margin-bottom: 25px;
@@ -117,7 +117,7 @@
             font-weight: 700;
         }
 
-        /* Install PWA Button */
+        
         #installPWA {
             background: var(--success);
             color: white;
@@ -194,7 +194,7 @@
             margin-bottom: 20px;
         }
 
-        /* Language Selector */
+        
         .language-selector {
             display: flex;
             justify-content: center;
@@ -219,7 +219,7 @@
             border-color: var(--accent);
         }
 
-        /* Search Container - Responsive */
+        
         .search-container {
             display: flex;
             flex-wrap: wrap;
@@ -335,7 +335,7 @@
             font-size: 0.9rem;
         }
 
-        /* Unit Toggle */
+        
         .unit-toggle {
             display: flex;
             justify-content: center;
@@ -360,7 +360,7 @@
             border-color: var(--accent);
         }
 
-        /* Feature Navigation */
+        
         .features-nav {
             display: flex;
             justify-content: center;
@@ -396,7 +396,7 @@
             border-color: var(--accent);
         }
 
-        /* Feature Sections */
+        
         .feature-section {
             display: none;
         }
@@ -405,7 +405,7 @@
             display: block;
         }
 
-        /* Main Content - Responsive Grid */
+        
         .main-content {
             display: grid;
             grid-template-columns: 1fr;
@@ -425,7 +425,7 @@
             }
         }
 
-        /* Cards Styling */
+        
         .current-weather,
         .forecast-container,
         .weather-details,
@@ -461,7 +461,7 @@
             margin-bottom: 25px;
         }
 
-        /* Current Weather */
+        
         .location-info {
             margin-bottom: 20px;
         }
@@ -510,7 +510,7 @@
             margin-top: 10px;
         }
 
-        /* Weather Details Grid */
+        
         .weather-details {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -557,7 +557,7 @@
             color: var(--text-primary);
         }
 
-        /* Section Titles */
+        
         .section-title {
             font-size: 1.3rem;
             color: var(--secondary);
@@ -573,7 +573,7 @@
             color: var(--accent);
         }
 
-        /* 5-Day Forecast */
+        
         .forecast-days {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -628,7 +628,7 @@
             color: var(--text-secondary);
         }
 
-        /* Hourly Forecast */
+        
         .hourly-forecast {
             margin-bottom: 25px;
         }
@@ -687,7 +687,7 @@
             font-weight: 600;
         }
 
-        /* Air Quality */
+        
         .aqi-container {
             display: flex;
             flex-direction: column;
@@ -745,7 +745,7 @@
             font-size: 0.95rem;
         }
 
-        /* Weather Map */
+        
         .weather-map {
             margin-bottom: 25px;
         }
@@ -764,7 +764,7 @@
             border: none;
         }
 
-        /* Astronomy Data */
+        
         .astronomy-data {
             margin-bottom: 25px;
         }
@@ -808,7 +808,7 @@
             color: var(--text-primary);
         }
 
-        /* Weather Alerts */
+        
         .weather-alerts {
             margin-bottom: 25px;
         }
@@ -849,7 +849,7 @@
             font-size: 0.9rem;
         }
 
-        /* Clothing Recommendations */
+        
         .clothing-recommendations {
             margin-bottom: 25px;
         }
@@ -888,7 +888,7 @@
             color: var(--text-primary);
         }
 
-        /* Recent Searches */
+        
         .recent-list {
             display: flex;
             flex-wrap: wrap;
@@ -912,7 +912,7 @@
             transform: translateY(-2px);
         }
 
-        /* AI Insights */
+        
         .ai-insights-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -924,6 +924,23 @@
             padding: 20px;
             border-radius: 10px;
             border-left: 5px solid var(--accent);
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .insight-card h4 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .insight-card p {
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .insight-card small {
+            color: var(--text-muted);
         }
 
         .confidence-meter {
@@ -940,7 +957,7 @@
             border-radius: 3px;
         }
 
-        /* Weather Comparison */
+        
         .comparison-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -964,7 +981,7 @@
             margin-top: 10px;
         }
 
-        /* Health Recommendations */
+        
         .health-tips-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -985,7 +1002,7 @@
             color: var(--accent);
         }
 
-        /* Gamification */
+        
         .achievements-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -1005,7 +1022,7 @@
             border: 2px solid var(--success);
         }
 
-        /* Weather Community */
+        
         .user-reports {
             display: flex;
             flex-direction: column;
@@ -1027,7 +1044,7 @@
             border-radius: 50%;
         }
 
-        /* Analytics Dashboard */
+        
         .analytics-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -1047,7 +1064,7 @@
             margin: 10px 0;
         }
 
-        /* Activity Planner */
+        
         .activity-suggestions {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -1071,7 +1088,7 @@
             border-left: 5px solid var(--danger);
         }
 
-        /* Developer API */
+        
         .api-docs {
             background: var(--element-bg);
             padding: 20px;
@@ -1088,7 +1105,7 @@
             font-size: 0.9rem;
         }
 
-        /* AR Weather */
+        
         .ar-container {
             position: relative;
             width: 100%;
@@ -1113,7 +1130,7 @@
             border-radius: 5px;
         }
 
-        /* Weather Education */
+        
         .episode-list {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -1127,7 +1144,7 @@
             border-radius: 10px;
         }
 
-        /* Emergency Mode */
+        
         .emergency-mode {
             position: fixed;
             top: 0;
@@ -1149,7 +1166,7 @@
             align-items: center;
         }
 
-        /* Offline Indicator */
+        
         .offline-indicator {
             position: fixed;
             top: 20px;
@@ -1163,7 +1180,7 @@
             z-index: 1000;
         }
 
-        /* Widget Generator */
+        
         .widget-generator {
             background: var(--element-bg);
             padding: 20px;
@@ -1195,7 +1212,7 @@
             gap: 8px;
         }
 
-        /* Weather Trends */
+        
         .trend-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -1203,7 +1220,7 @@
             margin-top: 20px;
         }
 
-        /* Footer */
+        
         footer {
             text-align: center;
             padding: 25px 15px;
@@ -1224,7 +1241,7 @@
             font-style: italic;
         }
 
-        /* Loader & Error Messages */
+        
         .loader {
             display: none;
             text-align: center;
@@ -1257,7 +1274,7 @@
             border: 1px solid var(--danger);
         }
 
-        /* Weather Animation Background */
+        
         .weather-background {
             position: fixed;
             top: 0;
@@ -1298,7 +1315,7 @@
                 radial-gradient(circle at 70% 30%, #546e7a 0%, transparent 50%);
         }
 
-        /* Export Options */
+        
         .export-options {
             display: flex;
             justify-content: center;
@@ -1327,7 +1344,7 @@
             border-color: var(--accent);
         }
 
-        /* Mobile Optimization */
+        
         @media (max-width: 768px) {
             .header-top {
                 flex-direction: column;
@@ -1402,7 +1419,7 @@
             }
         }
 
-        /* Print Styles */
+        
         @media print {
 
             .theme-toggle-container,
@@ -1431,7 +1448,7 @@
 </head>
 
 <body>
-    <!-- Emergency Mode -->
+    
     <div class="emergency-mode" id="emergency-mode">
         <i class="fas fa-exclamation-triangle" style="font-size: 4rem; margin-bottom: 20px;"></i>
         <h2 style="color: white; margin-bottom: 20px;">SEVERE WEATHER ALERT</h2>
@@ -1453,12 +1470,12 @@
         </button>
     </div>
 
-    <!-- Offline Indicator -->
+    
     <div class="offline-indicator" id="offline-indicator">
         <i class="fas fa-wifi-slash"></i> You are currently offline
     </div>
 
-    <!-- Weather Background Animation -->
+    
     <div class="weather-background sunny-bg" id="weather-background"></div>
 
     <div class="container">
@@ -1521,9 +1538,7 @@
                 <button class="feature-btn" onclick="showFeature('ai')">
                     <i class="fas fa-brain"></i> AI Insights
                 </button>
-                <!-- <button class="feature-btn" onclick="showFeature('comparison')">
-                    <i class="fas fa-balance-scale"></i> Compare
-                </button> -->
+                
                 <button class="feature-btn" onclick="showFeature('health')">
                     <i class="fas fa-heartbeat"></i> Health Tips
                 </button>
@@ -1543,7 +1558,7 @@
 
         <div class="error-message" id="error-message"></div>
 
-        <!-- Main Weather Section -->
+        
         <div class="feature-section active" id="weather-section">
             <div class="main-content" id="main-content">
                 <div class="current-weather">
@@ -1607,7 +1622,7 @@
                 <div class="forecast-container">
                     <h3 class="section-title"><i class="fas fa-calendar-alt"></i> 5-Day Forecast</h3>
                     <div class="forecast-days" id="forecast-days">
-                        <!-- Forecast days will be generated by JS -->
+                        
                     </div>
                 </div>
             </div>
@@ -1615,11 +1630,11 @@
             <div class="hourly-forecast">
                 <h3 class="section-title"><i class="fas fa-clock"></i> 24-Hour Forecast</h3>
                 <div class="hourly-container" id="hourly-forecast">
-                    <!-- Hourly forecast will be generated by JS -->
+                    
                 </div>
             </div>
 
-            <!-- Weather Insights & Trends -->
+            
             <div class="weather-insights">
                 <h3 class="section-title"><i class="fas fa-chart-area"></i> Weather Insights & Trends</h3>
                 <div class="charts-container"
@@ -1686,21 +1701,21 @@
             <div class="weather-alerts">
                 <h3 class="section-title"><i class="fas fa-exclamation-triangle"></i> Weather Alerts</h3>
                 <div class="alerts-container" id="weather-alerts">
-                    <!-- Alerts will be generated by JS -->
+                    
                 </div>
             </div>
 
             <div class="clothing-recommendations">
                 <h3 class="section-title"><i class="fas fa-tshirt"></i> What to Wear</h3>
                 <div class="clothing-items" id="clothing-items">
-                    <!-- Clothing items will be generated by JS -->
+                    
                 </div>
             </div>
 
             <div class="recent-searches">
                 <h3 class="section-title"><i class="fas fa-history"></i> Recent Searches</h3>
                 <div class="recent-list" id="recent-searches">
-                    <!-- Recent searches will be generated by JS -->
+                    
                 </div>
             </div>
 
@@ -1717,11 +1732,11 @@
             </div>
         </div>
 
-        <!-- AI Insights Section -->
+        
         <div class="feature-section ai-insights" id="ai-section">
             <h2 class="section-title"><i class="fas fa-brain"></i> AI Weather Predictions & Insights</h2>
             <div class="ai-insights-grid" id="ai-insights-content">
-                <!-- AI insights will be generated here -->
+                
             </div>
 
             <h3 class="section-title"><i class="fas fa-chart-line"></i> Historical Weather & Trends</h3>
@@ -1734,7 +1749,7 @@
             </div>
         </div>
 
-        <!-- Weather Comparison Section -->
+        
         <div class="feature-section weather-comparison" id="comparison-section">
             <h2 class="section-title"><i class="fas fa-balance-scale"></i> Weather Comparison Tool</h2>
             <div class="comparison-controls">
@@ -1745,37 +1760,37 @@
                 </div>
             </div>
             <div class="comparison-grid" id="comparison-grid">
-                <!-- Comparison cards will be generated here -->
+                
             </div>
         </div>
 
-        <!-- Health Recommendations Section -->
+        
         <div class="feature-section health-recommendations" id="health-section">
             <h2 class="section-title"><i class="fas fa-heartbeat"></i> Health & Wellness Recommendations</h2>
             <div class="health-tips-grid" id="health-tips">
-                <!-- Health tips will be generated here -->
+                
             </div>
 
             <h3 class="section-title"><i class="fas fa-calendar-check"></i> Weather-based Activity Planner</h3>
             <div class="activity-planner" id="activity-planner">
-                <!-- Activity suggestions will be generated here -->
+                
             </div>
         </div>
 
-        <!-- Gamification Section -->
+        
         <div class="feature-section weather-games" id="gamification-section">
             <h2 class="section-title"><i class="fas fa-gamepad"></i> Weather Gamification</h2>
             <div class="achievements-grid" id="achievements-grid">
-                <!-- Achievements will be generated here -->
+                
             </div>
 
             <h3 class="section-title"><i class="fas fa-question-circle"></i> Daily Weather Quiz</h3>
             <div class="weather-quiz" id="weather-quiz">
-                <!-- Quiz will be generated here -->
+                
             </div>
         </div>
 
-        <!-- Widget Generator Section -->
+        
         <div class="feature-section" id="widget-section">
             <h2 class="section-title"><i class="fas fa-code"></i> Weather Widget Generator</h2>
             <div class="widget-generator">
@@ -1798,11 +1813,11 @@
             </div>
         </div>
 
-        <!-- Additional Feature Sections (Hidden by default) -->
+        
         <div class="weather-community" style="display: none;" id="social-section">
             <h3 class="section-title"><i class="fas fa-users"></i> Social Weather Sharing</h3>
             <div class="user-reports" id="user-reports">
-                <!-- User reports will be generated here -->
+                
             </div>
             <button onclick="shareMyWeather()" class="export-btn" style="margin-top: 20px;">
                 <i class="fas fa-camera"></i> Share Current Weather
@@ -1812,7 +1827,7 @@
         <div class="analytics-dashboard" style="display: none;" id="analytics-section">
             <h3 class="section-title"><i class="fas fa-chart-line"></i> Advanced Analytics Dashboard</h3>
             <div class="analytics-grid" id="analytics-grid">
-                <!-- Analytics cards will be generated here -->
+                
             </div>
         </div>
 
@@ -1820,10 +1835,10 @@
             <h3 class="section-title"><i class="fas fa-code"></i> Weather Data API for Developers</h3>
             <div class="api-docs">
                 <pre><code>
-// Get current weather
+
 GET /api/v1/weather?city=London&units=metric
 
-// Response
+
 {
   "city": "London",
   "temperature": 18.5,
@@ -1856,7 +1871,7 @@ GET /api/v1/weather?city=London&units=metric
         <div class="weather-education" style="display: none;" id="education-section">
             <h3 class="section-title"><i class="fas fa-podcast"></i> Weather Podcast & Educational Content</h3>
             <div class="episode-list" id="episode-list">
-                <!-- Episodes will be generated here -->
+                
             </div>
         </div>
 
@@ -1868,8 +1883,8 @@ GET /api/v1/weather?city=London&units=metric
     </div>
 
     <script>
-        // =========== PWA & OFFLINE SUPPORT ===========
-        // Register Service Worker
+
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('service-worker.js')
@@ -1882,7 +1897,7 @@ GET /api/v1/weather?city=London&units=metric
             });
         }
 
-        // PWA Install Prompt
+
         let deferredPrompt;
         const installButton = document.getElementById('installPWA');
 
@@ -1903,7 +1918,7 @@ GET /api/v1/weather?city=London&units=metric
             });
         });
 
-        // Offline Detection
+
         window.addEventListener('online', updateOnlineStatus);
         window.addEventListener('offline', updateOnlineStatus);
 
@@ -1926,7 +1941,7 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // =========== INTERNATIONALIZATION ===========
+
         const translations = {
             en: {
                 search: 'Search',
@@ -2021,7 +2036,7 @@ GET /api/v1/weather?city=London&units=metric
             localStorage.setItem('language', lang);
             updateAllText();
 
-            // Update language buttons
+
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
@@ -2029,7 +2044,7 @@ GET /api/v1/weather?city=London&units=metric
         }
 
         function updateAllText() {
-            // Update all translatable text elements
+
             const elements = document.querySelectorAll('[data-i18n]');
             elements.forEach(element => {
                 const key = element.getAttribute('data-i18n');
@@ -2039,26 +2054,26 @@ GET /api/v1/weather?city=London&units=metric
             });
         }
 
-        // =========== FEATURE NAVIGATION ===========
+
         function showFeature(feature) {
-            // Hide all feature sections
+
             document.querySelectorAll('.feature-section').forEach(section => {
                 section.classList.remove('active');
             });
 
-            // Remove active class from all feature buttons
+
             document.querySelectorAll('.feature-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
 
-            // Show selected feature
+
             document.getElementById(`${feature}-section`).classList.add('active');
 
-            // Add active class to clicked button
+
             event.target.classList.add('active');
         }
 
-        // =========== AI INSIGHTS ===========
+
         function generateAIInsights(weatherData) {
             const container = document.getElementById('ai-insights-content');
             container.innerHTML = '';
@@ -2155,7 +2170,7 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // =========== WEATHER COMPARISON ===========
+
         let comparedCities = JSON.parse(localStorage.getItem('comparedCities')) || [];
 
         function addCityToCompare() {
@@ -2198,7 +2213,7 @@ GET /api/v1/weather?city=London&units=metric
             });
         }
 
-        // =========== HEALTH RECOMMENDATIONS ===========
+
         function generateHealthTips(weatherData) {
             const container = document.getElementById('health-tips');
             container.innerHTML = '';
@@ -2211,7 +2226,7 @@ GET /api/v1/weather?city=London&units=metric
 
             const tips = [];
 
-            // UV Protection
+
             if (uvIndex > 6) {
                 tips.push({
                     icon: 'fa-sun',
@@ -2219,7 +2234,7 @@ GET /api/v1/weather?city=London&units=metric
                 });
             }
 
-            // Humidity
+
             if (humidity > 70) {
                 tips.push({
                     icon: 'fa-tint',
@@ -2232,7 +2247,7 @@ GET /api/v1/weather?city=London&units=metric
                 });
             }
 
-            // Temperature
+
             if (temp > 30) {
                 tips.push({
                     icon: 'fa-thermometer-full',
@@ -2245,7 +2260,7 @@ GET /api/v1/weather?city=London&units=metric
                 });
             }
 
-            // Wind
+
             if (windSpeed > 25) {
                 tips.push({
                     icon: 'fa-wind',
@@ -2253,7 +2268,7 @@ GET /api/v1/weather?city=London&units=metric
                 });
             }
 
-            // Generate tips HTML
+
             tips.forEach(tip => {
                 const tipHTML = `
                     <div class="health-tip">
@@ -2266,7 +2281,7 @@ GET /api/v1/weather?city=London&units=metric
                 container.innerHTML += tipHTML;
             });
 
-            // Generate activity planner
+
             generateActivityPlanner(weatherData);
         }
 
@@ -2333,7 +2348,7 @@ GET /api/v1/weather?city=London&units=metric
             });
         }
 
-        // =========== GAMIFICATION ===========
+
         const achievements = [
             { id: 'sun_seeker', title: 'Sun Seeker', description: 'Check weather for 7 sunny days', icon: 'fa-sun', unlocked: true },
             { id: 'rain_warrior', title: 'Rain Warrior', description: 'Experience 5 rainstorms', icon: 'fa-umbrella', unlocked: false },
@@ -2399,7 +2414,7 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // =========== WIDGET GENERATOR ===========
+
         function updateWidgetCode(city) {
             const widgetCode = `<iframe src="https://weathercastpro.com/widget?city=${encodeURIComponent(city)}&theme=light" width="300" height="400" frameborder="0" style="border-radius: 10px;"></iframe>`;
             document.getElementById('widget-code').value = widgetCode;
@@ -2420,7 +2435,7 @@ GET /api/v1/weather?city=London&units=metric
             showNotification('Widget code copied to clipboard');
         }
 
-        // =========== SOCIAL FEATURES ===========
+
         function shareMyWeather() {
             const city = document.getElementById('city-name').textContent;
             const temp = document.getElementById('current-temp').textContent;
@@ -2436,23 +2451,23 @@ GET /api/v1/weather?city=London&units=metric
                     url: window.location.href
                 });
             } else {
-                // Fallback: copy to clipboard
+
                 navigator.clipboard.writeText(text).then(() => {
                     showNotification('Weather info copied to clipboard!');
                 });
             }
         }
 
-        // =========== DEVELOPER API ===========
+
         function generateApiKey() {
             const apiKey = 'wcp_' + Math.random().toString(36).substr(2, 16) + Date.now().toString(36);
             showNotification(`API Key Generated: ${apiKey}`);
 
-            // Save to localStorage
+
             localStorage.setItem('apiKey', apiKey);
         }
 
-        // =========== AR WEATHER VIEW ===========
+
         let arStream = null;
 
         async function startAR() {
@@ -2472,7 +2487,7 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // =========== EMERGENCY MODE ===========
+
         function activateEmergencyMode(alertData) {
             const emergencyMode = document.getElementById('emergency-mode');
             const emergencyContent = document.getElementById('emergency-content');
@@ -2490,7 +2505,7 @@ GET /api/v1/weather?city=London&units=metric
 
             emergencyMode.classList.add('active');
 
-            // Make alert sound
+
             try {
                 const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-warning-alarm-buzzer-937.mp3');
                 audio.play();
@@ -2513,7 +2528,7 @@ GET /api/v1/weather?city=London&units=metric
         }
 
         function checkEmergencyAlerts() {
-            // Mock emergency alerts - in production, this would fetch from an API
+
             const mockAlerts = [
                 {
                     active: Math.random() > 0.9, // 10% chance of alert
@@ -2534,7 +2549,7 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // =========== WEATHER EDUCATION ===========
+
         function loadWeatherEducation() {
             const container = document.getElementById('episode-list');
             const episodes = [
@@ -2567,7 +2582,7 @@ GET /api/v1/weather?city=London&units=metric
             `).join('');
         }
 
-        // =========== ANALYTICS DASHBOARD ===========
+
         function loadAnalyticsDashboard(weatherData) {
             const container = document.getElementById('analytics-grid');
             if (!weatherData || !weatherData.daily) return;
@@ -2596,8 +2611,8 @@ GET /api/v1/weather?city=London&units=metric
             `;
         }
 
-        // =========== YOUR EXISTING WEATHER CODE ===========
-        // Theme Management
+
+
         const themeToggle = document.getElementById('theme-toggle');
         const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -2617,6 +2632,11 @@ GET /api/v1/weather?city=London&units=metric
 
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
+
+
+            if (currentWeatherData) {
+                renderWeatherCharts(currentWeatherData);
+            }
         }
 
         themeToggle.addEventListener('click', toggleTheme);
@@ -2628,11 +2648,11 @@ GET /api/v1/weather?city=London&units=metric
             }
         });
 
-        // API Configuration - Using Open-Meteo (No API key required for free use)
+
         const GEO_BASE_URL = 'https://geocoding-api.open-meteo.com/v1/search';
         const WEATHER_BASE_URL = 'https://api.open-meteo.com/v1/forecast';
 
-        // DOM Elements
+
         const cityInput = document.getElementById('city-input');
         const searchBtn = document.getElementById('search-btn');
         const locationBtn = document.getElementById('location-btn');
@@ -2646,14 +2666,14 @@ GET /api/v1/weather?city=London&units=metric
         const shareWeatherBtn = document.getElementById('share-weather');
         const saveLocationBtn = document.getElementById('save-location');
 
-        // State variables
+
         let currentUnit = 'metric';
         let recentSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
         let savedLocations = JSON.parse(localStorage.getItem('savedLocations')) || [];
         let currentWeatherData = null;
         let weatherChart = null;
 
-        // Initialize the app
+
         document.addEventListener('DOMContentLoaded', function () {
             updateDateTime();
             setInterval(updateDateTime, 60000);
@@ -2667,14 +2687,14 @@ GET /api/v1/weather?city=London&units=metric
             renderRecentSearches();
             updateSavedLocationsButton();
 
-            // Initialize features
+
             loadAchievements();
             loadWeatherQuiz();
             updateComparisonGrid();
             loadWeatherEducation();
             updateOnlineStatus();
 
-            // Event Listeners
+
             searchBtn.addEventListener('click', handleSearch);
             locationBtn.addEventListener('click', handleLocation);
             voiceSearchBtn.addEventListener('click', handleVoiceSearch);
@@ -2689,7 +2709,7 @@ GET /api/v1/weather?city=London&units=metric
             shareWeatherBtn.addEventListener('click', shareWeather);
             saveLocationBtn.addEventListener('click', saveCurrentLocation);
 
-            // Make hourly forecast scrollable with keyboard
+
             const hourlyContainer = document.getElementById('hourly-forecast');
             hourlyContainer.setAttribute('tabindex', '0');
             hourlyContainer.addEventListener('keydown', (e) => {
@@ -2700,22 +2720,22 @@ GET /api/v1/weather?city=London&units=metric
                 }
             });
 
-            // Initialize voice recognition if available
+
             if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
                 window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             } else {
                 voiceSearchBtn.style.display = 'none';
             }
 
-            // Check for emergency alerts every 5 minutes
+
             setInterval(checkEmergencyAlerts, 5 * 60 * 1000);
             checkEmergencyAlerts();
 
-            // Initialize language
+
             updateAllText();
         });
 
-        // Update current date and time
+
         function updateDateTime() {
             const now = new Date();
             const options = {
@@ -2729,7 +2749,7 @@ GET /api/v1/weather?city=London&units=metric
             document.getElementById('current-date-time').textContent = now.toLocaleDateString('en-US', options);
         }
 
-        // Update footer timestamp
+
         function updateFooterTimestamp() {
             const now = new Date();
             const options = {
@@ -2745,7 +2765,7 @@ GET /api/v1/weather?city=London&units=metric
             document.getElementById('footer-timestamp').textContent = `Last updated: ${timestamp}`;
         }
 
-        // Handle city search
+
         function handleSearch() {
             const city = cityInput.value.trim();
             if (city) {
@@ -2756,7 +2776,7 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // Handle location button click
+
         function handleLocation() {
             if (navigator.geolocation) {
                 showLoader();
@@ -2764,7 +2784,7 @@ GET /api/v1/weather?city=London&units=metric
                     async position => {
                         const { latitude, longitude } = position.coords;
 
-                        // Attempt reverse geocoding for a better city name
+
                         try {
                             const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`);
                             const geoData = await res.json();
@@ -2787,7 +2807,7 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // Handle voice search
+
         function handleVoiceSearch() {
             if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
                 showError('Voice search is not supported in your browser');
@@ -2819,7 +2839,7 @@ GET /api/v1/weather?city=London&units=metric
             };
         }
 
-        // Geocoding: Get coordinates from city name
+
         async function getCoordinates(city) {
             showLoader();
             try {
@@ -2832,10 +2852,10 @@ GET /api/v1/weather?city=London&units=metric
 
                 const { latitude, longitude, name, country } = data.results[0];
 
-                // Store location info globally for other components
+
                 currentWeatherData = { location: { name, country, latitude, longitude } };
 
-                // Fetch weather data
+
                 await getWeather(latitude, longitude);
 
                 addToRecentSearches(name, country);
@@ -2846,7 +2866,7 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // Fetch weather from Open-Meteo
+
         async function getWeather(lat, lon) {
             showLoader();
             try {
@@ -2858,7 +2878,7 @@ GET /api/v1/weather?city=London&units=metric
 
                 const data = await response.json();
 
-                // Merge location info
+
                 if (currentWeatherData && currentWeatherData.location) {
                     data.location = currentWeatherData.location;
                 } else {
@@ -2873,14 +2893,14 @@ GET /api/v1/weather?city=London&units=metric
                 updateAstronomyData(data);
                 renderWeatherCharts(data);
 
-                // Fetch real Air Quality data
+
                 fetchAirQuality(lat, lon);
 
                 updateWeatherAlerts(data);
                 updateClothingRecommendations(data);
                 updateWeatherMap(data);
 
-                // Update advanced features
+
                 generateAIInsights(data);
                 generateHealthTips(data);
 
@@ -2892,7 +2912,7 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // Helper: Get weather description from WMO code
+
         function getWeatherDescription(code) {
             const interpretations = {
                 0: "Clear sky", 1: "Mainly clear", 2: "Partly cloudy", 3: "Overcast",
@@ -2908,7 +2928,7 @@ GET /api/v1/weather?city=London&units=metric
             return interpretations[code] || "Unknown";
         }
 
-        // Helper: Get FontAwesome icon from WMO code
+
         function getWMOIcon(code, isDay = 1) {
             const icons = {
                 0: isDay ? "fa-sun" : "fa-moon",
@@ -2929,7 +2949,7 @@ GET /api/v1/weather?city=London&units=metric
             return icons[code] || "fa-question";
         }
 
-        // Update current weather display
+
         function updateCurrentWeather(data) {
             const current = data.current;
             const location = data.location;
@@ -2965,7 +2985,7 @@ GET /api/v1/weather?city=London&units=metric
             updateWeatherBackground(desc.toLowerCase());
         }
 
-        // Update 5-day forecast
+
         function updateForecast(data) {
             const forecastDaysContainer = document.getElementById('forecast-days');
             forecastDaysContainer.innerHTML = '';
@@ -3005,7 +3025,7 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // Update hourly forecast
+
         function updateHourlyForecast(data) {
             const hourlyContainer = document.getElementById('hourly-forecast');
             hourlyContainer.innerHTML = '';
@@ -3014,7 +3034,7 @@ GET /api/v1/weather?city=London&units=metric
             const now = new Date();
             const currentHour = now.getHours();
 
-            // Show next 24 hours starting from current hour
+
             for (let i = currentHour; i < currentHour + 24; i++) {
                 const timeStr = hourly.time[i];
                 if (!timeStr) break;
@@ -3043,12 +3063,12 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // Update astronomy data
+
         function updateAstronomyData(data) {
             const daily = data.daily;
             if (!daily || !daily.sunrise) return;
 
-            // Today is index 0
+
             const sunrise = new Date(daily.sunrise[0]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             const sunset = new Date(daily.sunset[0]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -3062,7 +3082,7 @@ GET /api/v1/weather?city=London&units=metric
             document.getElementById('day-length').textContent = `${hours}h ${minutes}m`;
         }
 
-        // Helper to calculate moon phase
+
         function getMoonPhase(date) {
             const lp = 2551443;
             const now = new Date(date);
@@ -3076,7 +3096,7 @@ GET /api/v1/weather?city=London&units=metric
             return phases[res];
         }
 
-        // Update weather alerts
+
         function updateWeatherAlerts(data) {
             const alertsContainer = document.getElementById('weather-alerts');
             alertsContainer.innerHTML = '';
@@ -3084,7 +3104,7 @@ GET /api/v1/weather?city=London&units=metric
             const hourly = data.hourly;
             let hasAlert = false;
 
-            // Check next 24 hours for heavy precipitation or high probability
+
             for (let i = 0; i < 24; i++) {
                 const precip = hourly.precipitation[i];
                 const prob = hourly.precipitation_probability ? hourly.precipitation_probability[i] : 0;
@@ -3122,7 +3142,7 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // Update clothing recommendations
+
         function updateClothingRecommendations(data) {
             const clothingContainer = document.getElementById('clothing-items');
             if (!clothingContainer) return;
@@ -3136,7 +3156,7 @@ GET /api/v1/weather?city=London&units=metric
 
             const clothingItems = [];
 
-            // Temperature-based recommendations
+
             if (currentTemp > 25) {
                 clothingItems.push({ icon: 'fa-tshirt', text: 'Light shirt' });
                 clothingItems.push({ icon: 'fa-sun', text: 'Sunglasses' });
@@ -3153,7 +3173,7 @@ GET /api/v1/weather?city=London&units=metric
                 clothingItems.push({ icon: 'fa-hat-winter', text: 'Winter hat' });
             }
 
-            // Weather condition-based recommendations
+
             if (weatherDesc.includes('rain') || weatherDesc.includes('drizzle') || weatherDesc.includes('shower')) {
                 clothingItems.push({ icon: 'fa-umbrella', text: 'Umbrella' });
                 clothingItems.push({ icon: 'fa-water', text: 'Raincoat' });
@@ -3167,7 +3187,7 @@ GET /api/v1/weather?city=London&units=metric
                 clothingItems.push({ icon: 'fa-wind', text: 'Windbreaker' });
             }
 
-            // Add clothing items to container
+
             clothingItems.forEach(item => {
                 const clothingHTML = `
                     <div class="clothing-item">
@@ -3179,7 +3199,7 @@ GET /api/v1/weather?city=London&units=metric
             });
         }
 
-        // Update weather map
+
         function updateWeatherMap(data) {
             const lat = data.location.latitude;
             const lon = data.location.longitude;
@@ -3190,12 +3210,12 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // Render Weather Charts
+
         function renderWeatherCharts(data) {
             const ctx = document.getElementById('weatherChartCanvas').getContext('2d');
             const hourly = data.hourly;
 
-            // Get next 24 hours
+
             const timeLabels = hourly.time.slice(0, 24).map(t => new Date(t).toLocaleTimeString([], { hour: 'numeric', hour12: true }));
             let temps = hourly.temperature_2m.slice(0, 24);
             const rain = hourly.precipitation.slice(0, 24);
@@ -3274,7 +3294,7 @@ GET /api/v1/weather?city=London&units=metric
             });
         }
 
-        // Update weather background animation
+
         function updateWeatherBackground(weatherDesc) {
             const background = document.getElementById('weather-background');
             background.className = 'weather-background';
@@ -3290,7 +3310,7 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // Fetch Air Quality from Open-Meteo
+
         async function fetchAirQuality(lat, lon) {
             try {
                 const response = await fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=european_aqi,pm2_5,pm10`);
@@ -3302,7 +3322,7 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // Update air quality display
+
         function updateAirQuality(data) {
             const current = data.current;
             if (!current) return;
@@ -3337,7 +3357,7 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // Add city to recent searches
+
         function addToRecentSearches(city, country) {
             const searchItem = `${city}, ${country}`;
 
@@ -3352,7 +3372,7 @@ GET /api/v1/weather?city=London&units=metric
             renderRecentSearches();
         }
 
-        // Render recent searches
+
         function renderRecentSearches() {
             const recentList = document.getElementById('recent-searches');
             recentList.innerHTML = '';
@@ -3377,7 +3397,7 @@ GET /api/v1/weather?city=London&units=metric
             });
         }
 
-        // Save current location
+
         function saveCurrentLocation() {
             if (!currentWeatherData || !currentWeatherData.location) {
                 showError('No weather data available to save');
@@ -3397,7 +3417,7 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // Update save location button
+
         function updateSavedLocationsButton() {
             if (!currentWeatherData || !currentWeatherData.location) return;
 
@@ -3413,7 +3433,7 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // Show notification
+
         function showNotification(message) {
             const notification = document.createElement('div');
             notification.className = 'alert-item info';
@@ -3436,7 +3456,7 @@ GET /api/v1/weather?city=London&units=metric
             }, 3000);
         }
 
-        // Switch temperature unit
+
         function switchUnit(unit) {
             if (unit === currentUnit) return;
 
@@ -3458,11 +3478,11 @@ GET /api/v1/weather?city=London&units=metric
             }
         }
 
-        // Visual PDF Export
+
         function exportAsPDF() {
             const { jsPDF } = window.jspdf;
 
-            // Show loader while generating
+
             const btnOriginalText = exportPdfBtn.innerHTML;
             exportPdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
 
@@ -3480,7 +3500,7 @@ GET /api/v1/weather?city=London&units=metric
             });
         }
 
-        // Share weather
+
         function shareWeather() {
             const city = document.getElementById('city-name').textContent;
             const temp = document.getElementById('current-temp').textContent;
@@ -3496,7 +3516,7 @@ GET /api/v1/weather?city=London&units=metric
                     url: window.location.href
                 });
             } else {
-                // Fallback: copy to clipboard
+
                 navigator.clipboard.writeText(text).then(() => {
                     showNotification('Weather info copied to clipboard!');
                 });
@@ -3505,7 +3525,7 @@ GET /api/v1/weather?city=London&units=metric
 
 
 
-        // UI Helper Functions
+
         function showLoader() {
             loader.style.display = 'block';
             mainContent.style.display = 'none';
@@ -3531,7 +3551,7 @@ GET /api/v1/weather?city=London&units=metric
             }, 5000);
         }
 
-        // Initialize preferences
+
         function initializePreferences() {
             const savedUnit = localStorage.getItem('weatherUnit');
             if (savedUnit) {
@@ -3542,9 +3562,9 @@ GET /api/v1/weather?city=London&units=metric
         initializePreferences();
     </script>
 
-    <!-- Service Worker Script -->
+    
     <script>
-        // Register Service Worker
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function () {
                 navigator.serviceWorker.register('service-worker.js').then(function (registration) {
@@ -3555,7 +3575,7 @@ GET /api/v1/weather?city=London&units=metric
             });
         }
 
-        // Create service worker file content
+
         const serviceWorkerContent = `
 self.addEventListener('install', function(event) {
     event.waitUntil(
@@ -3596,7 +3616,7 @@ self.addEventListener('activate', function(event) {
 });
         `;
 
-        // Create and download service worker file
+
         function createServiceWorker() {
             const blob = new Blob([serviceWorkerContent], { type: 'application/javascript' });
             const url = URL.createObjectURL(blob);
@@ -3609,7 +3629,7 @@ self.addEventListener('activate', function(event) {
             URL.revokeObjectURL(url);
         }
 
-        // Create manifest file
+
         const manifestContent = {
             "name": "WeatherCast Pro",
             "short_name": "WeatherCast",
@@ -3644,7 +3664,7 @@ self.addEventListener('activate', function(event) {
             URL.revokeObjectURL(url);
         }
 
-        // Auto-create service worker and manifest on first load
+
         document.addEventListener('DOMContentLoaded', function () {
             if (!localStorage.getItem('pwaFilesCreated')) {
                 setTimeout(() => {
