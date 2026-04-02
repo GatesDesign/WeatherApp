@@ -11,1238 +11,455 @@
         rel="stylesheet">
     
     <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="/icon-192x192.png">
 
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-    <style>
-        :root {
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    
+    <div class="emergency-mode" id="emergency-mode">
+        <i class="fas fa-exclamation-triangle"></i>
+        <h2>SEVERE WEATHER ALERT</h2>
+        <div id="emergency-content">
+            <p>A severe weather event has been detected in your area.
+                Please take immediate precautions to ensure your safety. Follow local authorities' instructions and stay
+                tuned for updates.</p>
+            <p>If you are in danger, use the button below to share your location with emergency services.</p>
+        </div>
+        <button onclick="shareLocationWithEmergency()">
+            <i class="fas fa-sos"></i> Share Location with Emergency Services
+        </button>
+        <button onclick="exitEmergencyMode()">
+            Exit Emergency Mode
+        </button>
+    </div>
+
+    
+    <div class="offline-indicator" id="offline-indicator">
+        <i class="fas fa-wifi-slash"></i> You are currently offline
+    </div>
+
+    
+    <div class="weather-background sunny-bg" id="weather-background"></div>
+
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <div class="logo">
+                    <i class="fas fa-cloud-sun"></i>
+                    <h1>WeatherCast Pro</h1>
+                </div>
+                <div class="theme-toggle-container">
+                    <span class="theme-toggle-label">Dark Mode</span>
+                    <div class="theme-toggle" id="theme-toggle">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                    </div>
+                </div>
+            </div>
+            <p class="tagline">Live weather forecasts with AI-powered predictions</p>
+
+
+            <button id="installPWA">
+                <i class="fas fa-download"></i> Install App
+            </button>
+
+
+            <div class="language-selector">
+                <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+                <button class="lang-btn" onclick="setLanguage('es')">ES</button>
+                <button class="lang-btn" onclick="setLanguage('fr')">FR</button>
+                <button class="lang-btn" onclick="setLanguage('de')">DE</button>
+            </div>
+
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="city-input"
+                        placeholder="Enter city name (e.g., Oshogbo, Abuja, Kano, Lagos)">
+                </div>
+                <button class="search-btn" id="search-btn">Search</button>
+                <button class="location-btn" id="location-btn">
+                    <i class="fas fa-location-arrow"></i>
+                    <span>My Location</span>
+                </button>
+                <button class="voice-search-btn" id="voice-search-btn">
+                    <i class="fas fa-microphone"></i>
+                    <span>Voice Search</span>
+                </button>
+            </div>
+
+            <div class="unit-toggle">
+                <button class="unit-btn active" id="celsius-btn">°C</button>
+                <button class="unit-btn" id="fahrenheit-btn">°F</button>
+            </div>
+
+
+            <div class="features-nav">
+                <button class="feature-btn active" onclick="showFeature('weather')">
+                    <i class="fas fa-cloud-sun"></i> Weather
+                </button>
+                <button class="feature-btn" onclick="showFeature('ai')">
+                    <i class="fas fa-brain"></i> AI Insights
+                </button>
+                
+                <button class="feature-btn" onclick="showFeature('health')">
+                    <i class="fas fa-heartbeat"></i> Health Tips
+                </button>
+                <button class="feature-btn" onclick="showFeature('gamification')">
+                    <i class="fas fa-gamepad"></i> Challenges
+                </button>
+                <button class="feature-btn" onclick="showFeature('widget')">
+                    <i class="fas fa-code"></i> Widget
+                </button>
+            </div>
+        </header>
+
+        <div class="loader" id="loader">
+            <i class="fas fa-spinner"></i>
+            <p>Loading weather data...</p>
+        </div>
+
+        <div class="error-message" id="error-message"></div>
+
+        
+        <div class="feature-section active" id="weather-section">
+            <div class="main-content" id="main-content">
+                <div class="current-weather">
+                    <div class="location-info">
+                        <h2 id="city-name">New York, US</h2>
+                        <p class="date-time" id="current-date-time">Monday, June 12, 2023 • 14:30</p>
+                    </div>
+
+                    <div class="weather-main">
+                        <div class="weather-icon">
+                            <i class="fas fa-sun" id="weather-icon"></i>
+                        </div>
+                        <div>
+                            <div class="temperature">
+                                <span id="current-temp">24</span>°<span id="temp-unit">C</span>
+                            </div>
+                            <p class="weather-description" id="weather-description">Sunny</p>
+                        </div>
+                    </div>
+
+                    <div class="weather-details">
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-wind"></i>
+                            </div>
+                            <div class="detail-info">
+                                <h4 data-i18n="wind">Wind Speed</h4>
+                                <p id="wind-speed">12 km/h</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div class="detail-info">
+                                <h4 data-i18n="humidity">Humidity</h4>
+                                <p id="humidity">65%</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-temperature-high"></i>
+                            </div>
+                            <div class="detail-info">
+                                <h4 data-i18n="feelsLike">Feels Like</h4>
+                                <p id="feels-like">26°C</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-compress-alt"></i>
+                            </div>
+                            <div class="detail-info">
+                                <h4 data-i18n="pressure">Pressure</h4>
+                                <p id="pressure">1013 hPa</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="forecast-container">
+                    <h3 class="section-title"><i class="fas fa-calendar-alt"></i> 5-Day Forecast</h3>
+                    <div class="forecast-days" id="forecast-days">
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="hourly-forecast">
+                <h3 class="section-title"><i class="fas fa-clock"></i> 24-Hour Forecast</h3>
+                <div class="hourly-container" id="hourly-forecast">
+                    
+                </div>
+            </div>
+
             
-            --primary: #4a6fa5;
-            --secondary: #166088;
-            --accent: #32a1ce;
-            --bg-gradient-1: #f5f7fa;
-            --bg-gradient-2: #c3cfe2;
-            --card-bg: #ffffff;
-            --text-primary: #343a40;
-            --text-secondary: #666666;
-            --text-muted: #888888;
-            --element-bg: #f8f9fa;
-            --border-color: #e0e0e0;
-            --shadow-color: rgba(0, 0, 0, 0.12);
-            --hover-shadow: rgba(0, 0, 0, 0.1);
-            --error-bg: #ffebee;
-            --success: #28a745;
-            --warning: #ffc107;
-            --danger: #dc3545;
-            --border-radius: 15px;
-            --box-shadow: 0 8px 30px var(--shadow-color);
-            --transition: all 0.3s ease;
-        }
+            <div class="weather-insights">
+                <h3 class="section-title"><i class="fas fa-chart-area"></i> Weather Insights & Trends</h3>
+                <div class="charts-container">
+                    <canvas id="weatherChartCanvas"></canvas>
+                </div>
+            </div>
 
-        [data-theme="dark"] {
-            
-            --primary: #6a8fc5;
-            --secondary: #2a80b8;
-            --accent: #4ac1ee;
-            --bg-gradient-1: #1a1a2e;
-            --bg-gradient-2: #16213e;
-            --card-bg: #222831;
-            --text-primary: #eeeeee;
-            --text-secondary: #b0b0b0;
-            --text-muted: #888888;
-            --element-bg: #2d4059;
-            --border-color: #393e46;
-            --shadow-color: rgba(0, 0, 0, 0.3);
-            --hover-shadow: rgba(0, 0, 0, 0.4);
-            --error-bg: #4a1a1f;
-            --success: #34c759;
-            --warning: #ffd54f;
-            --danger: #ff6b6b;
-        }
+            <div class="weather-map">
+                <h3 class="section-title"><i class="fas fa-map"></i> Interactive Weather Map</h3>
+                <div class="map-container">
+                    <iframe id="weather-map"
+                        title="Interactive Weather Map"
+                        src="https://embed.windy.com/embed2.html?lat=40.7128&lon=-74.0060&zoom=5&level=surface&overlay=wind&menu=&message=true&marker=true&calendar=now&pressure=&type=map&location=coordinates&detail=true&metricWind=default&metricTemp=default&radarRange=-1"
+                        frameborder="0"></iframe>
+                </div>
+            </div>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+            <div class="astronomy-data">
+                <h3 class="section-title"><i class="fas fa-star"></i> Astronomy Data</h3>
+                <div class="astronomy-grid">
+                    <div class="astronomy-item">
+                        <i class="fas fa-sun"></i>
+                        <div class="astronomy-info">
+                            <h4 data-i18n="sunrise">Sunrise</h4>
+                            <p id="sunrise-time">6:45 AM</p>
+                        </div>
+                    </div>
+                    <div class="astronomy-item">
+                        <i class="fas fa-moon"></i>
+                        <div class="astronomy-info">
+                            <h4 data-i18n="sunset">Sunset</h4>
+                            <p id="sunset-time">7:30 PM</p>
+                        </div>
+                    </div>
+                    <div class="astronomy-item">
+                        <i class="fas fa-moon-stars"></i>
+                        <div class="astronomy-info">
+                            <h4 data-i18n="moonPhase">Moon Phase</h4>
+                            <p id="moon-phase">Waxing Crescent</p>
+                        </div>
+                    </div>
+                    <div class="astronomy-item">
+                        <i class="fas fa-hourglass-half"></i>
+                        <div class="astronomy-info">
+                            <h4 data-i18n="dayLength">Day Length</h4>
+                            <p id="day-length">12h 45m</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, var(--bg-gradient-1) 0%, var(--bg-gradient-2) 100%);
-            color: var(--text-primary);
-            min-height: 100vh;
-            padding: 15px;
-            transition: var(--transition);
-        }
+            <div class="air-quality">
+                <h3 class="section-title"><i class="fas fa-wind"></i> Air Quality Index</h3>
+                <div class="aqi-container">
+                    <div class="aqi-value aqi-good" id="aqi-value">42</div>
+                    <div class="aqi-info">
+                        <h3 id="aqi-status">Good</h3>
+                        <p id="aqi-description">Air quality is satisfactory, and air pollution poses little or no risk.
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-        }
+            <div class="weather-alerts">
+                <h3 class="section-title"><i class="fas fa-exclamation-triangle"></i> Weather Alerts</h3>
+                <div class="alerts-container" id="weather-alerts">
+                    
+                </div>
+            </div>
 
-        
-        header {
-            text-align: center;
-            margin-bottom: 25px;
-            padding: 15px;
-        }
+            <div class="clothing-recommendations">
+                <h3 class="section-title"><i class="fas fa-tshirt"></i> What to Wear</h3>
+                <div class="clothing-items" id="clothing-items">
+                    
+                </div>
+            </div>
 
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
+            <div class="recent-searches">
+                <h3 class="section-title"><i class="fas fa-history"></i> Recent Searches</h3>
+                <div class="recent-list" id="recent-searches">
+                    
+                </div>
+                <button class="export-btn" id="clear-history-btn">
+                    <i class="fas fa-trash"></i> Clear History
+                </button>
+            </div>
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo i {
-            font-size: 2.2rem;
-            color: var(--accent);
-        }
-
-        .logo h1 {
-            font-size: 1.8rem;
-            color: var(--secondary);
-            font-weight: 700;
-        }
-
-        
-        #installPWA {
-            background: var(--success);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin: 10px auto;
-            display: none;
-        }
-
-        .theme-toggle-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .theme-toggle-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .theme-toggle {
-            width: 60px;
-            height: 30px;
-            background: var(--element-bg);
-            border-radius: 50px;
-            position: relative;
-            cursor: pointer;
-            border: 2px solid var(--border-color);
-            transition: var(--transition);
-        }
-
-        .theme-toggle::before {
-            content: '';
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: var(--accent);
-            top: 1px;
-            left: 3px;
-            transition: var(--transition);
-        }
-
-        [data-theme="dark"] .theme-toggle::before {
-            transform: translateX(28px);
-        }
-
-        .theme-toggle i {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 0.9rem;
-        }
-
-        .theme-toggle .fa-sun {
-            left: 8px;
-            color: var(--warning);
-        }
-
-        .theme-toggle .fa-moon {
-            right: 8px;
-            color: var(--text-secondary);
-        }
-
-        .tagline {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            font-weight: 300;
-            margin-bottom: 20px;
-        }
+            <div class="export-options">
+                <button class="export-btn" id="export-pdf">
+                    <i class="fas fa-file-pdf"></i> Export as PDF
+                </button>
+                <button class="export-btn" id="share-weather">
+                    <i class="fas fa-share-alt"></i> Share Weather
+                </button>
+                <button class="export-btn" id="save-location">
+                    <i class="fas fa-bookmark"></i> Save Location
+                </button>
+            </div>
+        </div>
 
         
-        .language-selector {
-            display: flex;
-            justify-content: center;
-            margin: 10px 0;
-            gap: 5px;
-        }
+        <div class="feature-section ai-insights" id="ai-section">
+            <h2 class="section-title"><i class="fas fa-brain"></i> AI Weather Predictions & Insights</h2>
+            <div class="ai-insights-grid" id="ai-insights-content">
+                
+            </div>
 
-        .lang-btn {
-            padding: 8px 15px;
-            background: var(--element-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 500;
-            color: var(--text-primary);
-            transition: var(--transition);
-        }
-
-        .lang-btn.active {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
+            <h3 class="section-title"><i class="fas fa-chart-line"></i> Historical Weather & Trends (Last 30 Days)</h3>
+            <div class="weather-trends">
+                <div class="charts-container">
+                    <canvas id="historicalWeatherChartCanvas"></canvas>
+                </div>
+                <div class="trend-stats" id="trend-stats">
+                    
+                </div>
+            </div>
+        </div>
 
         
-        .search-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin: 20px 0;
-            gap: 10px;
-        }
-
-        .search-box {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            min-width: 250px;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 14px 20px 14px 50px;
-            border: 2px solid var(--border-color);
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            background: var(--card-bg);
-            color: var(--text-primary);
-            box-shadow: var(--box-shadow);
-            transition: var(--transition);
-        }
-
-        .search-box input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 8px 30px var(--shadow-color);
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--primary);
-        }
-
-        .search-btn,
-        .location-btn,
-        .voice-search-btn {
-            padding: 14px 20px;
-            border: none;
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            white-space: nowrap;
-        }
-
-        .search-btn {
-            background: var(--primary);
-            color: white;
-        }
-
-        .search-btn:hover {
-            background: var(--secondary);
-            transform: translateY(-2px);
-        }
-
-        .location-btn {
-            background: var(--accent);
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .location-btn:hover {
-            background: #2a8db8;
-            transform: translateY(-2px);
-        }
-
-        .voice-search-btn {
-            background: var(--warning);
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .voice-search-btn:hover {
-            background: #e0a800;
-            transform: translateY(-2px);
-        }
-
-        .voice-search-btn.listening {
-            background: var(--danger);
-            color: white;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .location-btn i,
-        .voice-search-btn i {
-            font-size: 0.9rem;
-        }
+        <div class="feature-section weather-comparison" id="comparison-section">
+            <h2 class="section-title"><i class="fas fa-balance-scale"></i> Weather Comparison Tool</h2>
+            <div class="comparison-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="compare-city-input" placeholder="Add city to compare...">
+                    <button onclick="addCityToCompare()">Add</button>
+                </div>
+            </div>
+            <div class="comparison-grid" id="comparison-grid">
+                
+            </div>
+        </div>
 
         
-        .unit-toggle {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 15px;
-            gap: 5px;
-        }
+        <div class="feature-section health-recommendations" id="health-section">
+            <h2 class="section-title"><i class="fas fa-heartbeat"></i> Health & Wellness Recommendations</h2>
+            <div class="health-tips-grid" id="health-tips">
+                
+            </div>
 
-        .unit-btn {
-            padding: 8px 15px;
-            background: var(--element-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 500;
-            color: var(--text-primary);
-            transition: var(--transition);
-        }
-
-        .unit-btn.active {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
+            <h3 class="section-title"><i class="fas fa-calendar-check"></i> Weather-based Activity Planner</h3>
+            <div class="activity-planner" id="activity-planner">
+                
+            </div>
+        </div>
 
         
-        .features-nav {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+        <div class="feature-section weather-games" id="gamification-section">
+            <h2 class="section-title"><i class="fas fa-gamepad"></i> Weather Gamification</h2>
+            <div class="achievements-grid" id="achievements-grid">
+                
+            </div>
 
-        .feature-btn {
-            padding: 12px 20px;
-            background: var(--element-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            color: var(--text-primary);
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .feature-btn:hover {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        .feature-btn.active {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
+            <h3 class="section-title"><i class="fas fa-question-circle"></i> Daily Weather Quiz</h3>
+            <div class="weather-quiz" id="weather-quiz">
+                
+            </div>
+        </div>
 
         
-        .feature-section {
-            display: none;
-        }
-
-        .feature-section.active {
-            display: block;
-        }
-
-        
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 25px;
-            margin-bottom: 25px;
-        }
-
-        @media (min-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (min-width: 1200px) {
-            .main-content {
-                grid-template-columns: 2fr 1fr;
-            }
-        }
+        <div class="feature-section" id="widget-section">
+            <h2 class="section-title"><i class="fas fa-code"></i> Weather Widget Generator</h2>
+            <div class="widget-generator">
+                <h4>Embeddable Weather Widget</h4>
+                <textarea id="widget-code" readonly>
+<iframe src="https://weathercastpro.com/widget?city=New+York&theme=light" width="300" height="400" frameborder="0" title="Weather Widget"></iframe>
+                </textarea>
+                <button onclick="copyWidgetCode()" class="copy-btn">
+                    <i class="fas fa-copy"></i> Copy Widget Code
+                </button>
+                <div>
+                    <p><strong>Customization Options:</strong></p>
+                    <div>
+                        <button onclick="updateWidgetCode('New York')" class="export-btn">New York</button>
+                        <button onclick="updateWidgetCode('London')" class="export-btn">London</button>
+                        <button onclick="updateWidgetCode('Tokyo')" class="export-btn">Tokyo</button>
+                        <button onclick="updateWidgetCode('Sydney')" class="export-btn">Sydney</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         
-        .current-weather,
-        .forecast-container,
-        .weather-details,
-        .weather-main,
-        .current-weather,
-        .alert-item,
-        .ai-insights-grid .insight-card,
-        .weather-background .forecast-container,
-        .hourly-forecast,
-        .air-quality,
-        .recent-searches,
-        .weather-map,
-        .astronomy-data,
-        .weather-alerts,
-        .clothing-recommendations,
-        .ai-insights,
-        .weather-comparison,
-        .health-recommendations,
-        .weather-games,
-        .weather-community,
-        .analytics-dashboard,
-        .activity-planner,
-        .developer-api,
-        .ar-weather,
-        .weather-education,
-        .emergency-mode {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 25px;
-            box-shadow: var(--box-shadow);
-            transition: var(--transition);
-            border: 1px solid var(--border-color);
-            margin-bottom: 25px;
-        }
-
-        
-        .location-info {
-            margin-bottom: 20px;
-        }
-
-        .location-info h2 {
-            font-size: 1.8rem;
-            color: var(--secondary);
-            margin-bottom: 5px;
-            word-break: break-word;
-        }
-
-        .location-info .date-time {
-            color: var(--text-secondary);
-            font-size: 1rem;
-        }
-
-        .weather-main {
-            display: flex;
-            align-items: center;
-            margin: 25px 0;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .weather-icon {
-            font-size: 4rem;
-            color: var(--accent);
-            min-width: 80px;
-        }
-
-        .temperature {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            line-height: 1;
-        }
-
-        .temperature span {
-            font-size: 1.8rem;
-            vertical-align: top;
-        }
-
-        .weather-description {
-            font-size: 1.3rem;
-            color: var(--primary);
-            margin-top: 10px;
-        }
-
-        
-        .weather-details {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        @media (max-width: 480px) {
-            .weather-details {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .detail-item {
-            display: flex;
-            align-items: center;
-            background: var(--element-bg);
-            padding: 15px;
-            border-radius: 10px;
-            transition: var(--transition);
-        }
-
-        .detail-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px var(--hover-shadow);
-        }
-
-        .detail-icon {
-            font-size: 1.5rem;
-            color: var(--accent);
-            margin-right: 15px;
-            min-width: 40px;
-        }
-
-        .detail-info h4 {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 5px;
-        }
-
-        .detail-info p {
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-
-        
-        .section-title {
-            font-size: 1.3rem;
-            color: var(--secondary);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-title i {
-            color: var(--accent);
-        }
-
-        
-        .forecast-days {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
-        }
-
-        .forecast-day {
-            background: var(--element-bg);
-            border-radius: 10px;
-            padding: 18px;
-            text-align: center;
-            transition: var(--transition);
-            border: 1px solid var(--border-color);
-        }
-
-        .forecast-day:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px var(--hover-shadow);
-        }
-
-        .forecast-day .day {
-            font-weight: 600;
-            color: var(--secondary);
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
-
-        .forecast-day .date {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-        }
-
-        .forecast-day .weather-icon {
-            font-size: 2.2rem;
-            margin: 10px 0;
-        }
-
-        .forecast-temp {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 8px;
-        }
-
-        .temp-high {
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .temp-low {
-            color: var(--text-secondary);
-        }
-
-        
-        .hourly-forecast {
-            margin-bottom: 25px;
-        }
-
-        .hourly-container {
-            display: flex;
-            overflow-x: auto;
-            padding: 10px 5px;
-            gap: 15px;
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent) var(--element-bg);
-        }
-
-        .hourly-container::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .hourly-container::-webkit-scrollbar-track {
-            background: var(--element-bg);
-            border-radius: 10px;
-        }
-
-        .hourly-container::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 10px;
-        }
-
-        .hourly-item {
-            flex: 0 0 auto;
-            text-align: center;
-            padding: 15px;
-            background: var(--element-bg);
-            border-radius: 10px;
-            min-width: 100px;
-            border: 1px solid var(--border-color);
-            transition: var(--transition);
-        }
-
-        .hourly-item:hover {
-            transform: translateY(-3px);
-        }
-
-        .hourly-item .time {
-            font-weight: 600;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-        }
-
-        .hourly-item .weather-icon {
-            font-size: 1.8rem;
-            margin: 10px 0;
-        }
-
-        .hourly-item .temp {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        
-        .aqi-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 25px;
-        }
-
-        @media (min-width: 576px) {
-            .aqi-container {
-                flex-direction: row;
-            }
-        }
-
-        .aqi-value {
-            font-size: 3rem;
-            font-weight: 700;
-            width: 100px;
-            height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        @media (min-width: 576px) {
-            .aqi-value {
-                width: 120px;
-                height: 120px;
-                font-size: 3.5rem;
-            }
-        }
-
-        .aqi-good {
-            background: var(--success);
-        }
-
-        .aqi-moderate {
-            background: var(--warning);
-        }
-
-        .aqi-unhealthy {
-            background: var(--danger);
-        }
-
-        .aqi-info h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-        }
-
-        .aqi-info p {
-            color: var(--text-secondary);
-            line-height: 1.5;
-            font-size: 0.95rem;
-        }
-
-        
-        .weather-map {
-            margin-bottom: 25px;
-        }
-
-        .map-container {
-            width: 100%;
-            height: 300px;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-        }
-
-        .map-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        
-        .astronomy-data {
-            margin-bottom: 25px;
-        }
-
-        .astronomy-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .astronomy-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: var(--element-bg);
-            border-radius: 10px;
-            transition: var(--transition);
-        }
-
-        .astronomy-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px var(--hover-shadow);
-        }
-
-        .astronomy-item i {
-            font-size: 1.8rem;
-            color: var(--accent);
-            width: 40px;
-        }
-
-        .astronomy-info h4 {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 5px;
-        }
-
-        .astronomy-info p {
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-
-        
-        .weather-alerts {
-            margin-bottom: 25px;
-        }
-
-        .alerts-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .alert-item {
-            padding: 15px;
-            border-radius: 10px;
-            border-left-width: 5px;
-            border-left-style: solid;
-        }
-
-        .alert-item.error, .alert-item.severe {
-            background: var(--danger);
-            color: white;
-            border-left-color: #a71d2a;
-        }
-
-        .alert-item.info {
-            background: var(--accent);
-            color: white;
-            border-left-color: #2a8db8;
-        }
-        
-        .alert-item.success {
-            background: var(--success);
-            color: white;
-            border-left-color: #207a38;
-        }
-
-        .alert-title {
-            font-weight: 600;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .alert-message {
-            font-size: 0.9rem;
-        }
-
-        
-        .clothing-recommendations {
-            margin-bottom: 25px;
-        }
-
-        .clothing-items {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .clothing-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 15px;
-            background: var(--element-bg);
-            border-radius: 10px;
-            min-width: 100px;
-            transition: var(--transition);
-        }
-
-        .clothing-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px var(--hover-shadow);
-        }
-
-        .clothing-item i {
-            font-size: 2rem;
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
-
-        .clothing-item span {
-            font-size: 0.9rem;
-            text-align: center;
-            color: var(--text-primary);
-        }
-
-        
-        .recent-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .recent-item {
-            background: var(--element-bg);
-            padding: 10px 18px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.9rem;
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-        }
-
-        .recent-item:hover {
-            background: var(--accent);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        
-        .ai-insights-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .insight-card {
-            background: var(--element-bg);
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 5px solid var(--accent);
-            color: var(--text-primary);
-            transition: var(--transition);
-        }
-
-        .insight-card h4 {
-            color: var(--secondary);
-            margin-bottom: 10px;
-        }
-
-        .insight-card p {
-            color: var(--text-primary);
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-
-        .insight-card small {
-            color: var(--text-muted);
-        }
-
-        .confidence-meter {
-            height: 6px;
-            background: var(--border-color);
-            border-radius: 3px;
-            margin-top: 10px;
-            overflow: hidden;
-        }
-
-        .confidence-fill {
-            height: 100%;
-            background: var(--success);
-            border-radius: 3px;
-        }
-
-        
-        .comparison-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .comparison-card {
-            background: var(--element-bg);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .remove-city {
-            background: var(--danger);
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        
-        .health-tips-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .health-tip {
-            background: var(--element-bg);
-            padding: 20px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .health-tip i {
-            font-size: 1.5rem;
-            color: var(--accent);
-        }
-
-        
-        .achievements-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .achievement {
-            background: var(--element-bg);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            opacity: 0.5;
-        }
-
-        .achievement.unlocked {
-            opacity: 1;
-            border: 2px solid var(--success);
-        }
-
-        
-        .user-reports {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .user-report {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: var(--element-bg);
-            border-radius: 10px;
-        }
-
-        .user-report img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
-
-        
-        .analytics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .metric-card {
-            background: var(--element-bg);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .metric-value {
-            font-size: 2rem;
-            font-weight: 700;
-            margin: 10px 0;
-        }
-
-        
-        .activity-suggestions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-        }
-
-        .activity {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: var(--element-bg);
-            border-radius: 10px;
-        }
-
-        .activity.good {
-            border-left: 5px solid var(--success);
-        }
-
-        .activity.bad {
-            border-left: 5px solid var(--danger);
-        }
-
-        
-        .api-docs {
-            background: var(--element-bg);
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        pre {
-            background: #1a1a2e;
-            color: white;
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-            margin: 10px 0;
-            font-size: 0.9rem;
-        }
-
-        
-        .ar-container {
-            position: relative;
-            width: 100%;
-            height: 400px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        #ar-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .ar-overlay {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-        
-        .episode-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .episode {
-            background: var(--element-bg);
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        
-        .emergency-mode {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(220, 53, 69, 0.95);
-            color: white;
-            z-index: 9999;
-            display: none;
-            padding: 50px;
-            text-align: center;
-        }
-
-        .emergency-mode.active {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        
-        .offline-indicator {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--warning);
-            color: black;
-            padding: 10px 20px;
-            border-radius: 50px;
-            display: none;
-            z-index: 1000;
-        }
-
-        
-        .widget-generator {
-            background: var(--element-bg);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        textarea#widget-code {
-            width: 100%;
-            background: #1a1a2e;
-            color: white;
-            padding: 15px;
-            border-radius: 5px;
-            border: none;
-            font-family: monospace;
-            resize: vertical;
-            margin: 10px 0;
-        }
-
-        .copy-btn {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        
-        .trend-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        
-        footer {
-            text-align: center;
-            padding: 25px 15px;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            margin-top: 25px;
-            border-top: 1px solid var(--border-color);
-        }
-
-        footer p {
-            margin-bottom: 8px;
-        }
-
-        #footer-timestamp {
-            font-size: 0.8rem;
+        <div class="weather-community social-section" id="social-section">
+            <h3 class="section-title"><i class="fas fa-users"></i> Social Weather Sharing</h3>
+            <div class="user-reports" id="user-reports">
+                
+            </div>
+            <button onclick="shareMyWeather()" class="export-btn">
+                <i class="fas fa-camera"></i> Share Current Weather
+            </button>
+        </div>
+
+        <div class="analytics-dashboard" id="analytics-section">
+            <h3 class="section-title"><i class="fas fa-chart-line"></i> Advanced Analytics Dashboard</h3>
+            <div class="analytics-grid" id="analytics-grid">
+                
+            </div>
+        </div>
+
+        <div class="developer-api" id="api-section">
+            <h3 class="section-title"><i class="fas fa-code"></i> Weather Data API for Developers</h3>
+            <div class="api-docs">
+                <pre><code>
+
+GET /api/v1/weather?city=London&units=metric
+
+
+{
+  "city": "London",
+  "temperature": 18.5,
+  "condition": "Partly Cloudy",
+  "humidity": 65,
+  "forecast": [...]
+}
+                </code></pre>
+                <button onclick="generateApiKey()" class="export-btn">
+                    <i class="fas fa-key"></i> Get API Key
+                </button>
+            </div>
+        </div>
+
+        <div class="ar-weather ar-section" id="ar-section">
+            <h3 class="section-title"><i class="fas fa-vr-cardboard"></i> Augmented Reality Weather View</h3>
+            <div class="ar-container">
+                <video id="ar-video" autoplay></video>
+                <div class="ar-overlay">
+                    <div class="ar-temp">24°C</div>
+                    <div class="ar-wind">12 km/h ←</div>
+                    <div class="ar-clouds">☁️ 40% coverage</div>
+                </div>
+            </div>
+            <button onclick="startAR()" class="export-btn">
+                <i class="fas fa-camera"></i> Launch AR Mode
+            </button>
+        </div>
+
+        <div class="weather-education" id="education-section">
+            <h3 class="section-title"><i class="fas fa-podcast"></i> Weather Podcast & Educational Content</h3>
+            <div class="episode-list" id="episode-list">
+                
+            </div>
+        </div>
+
+        <footer>
+            <p>WeatherCast Pro • Data provided by World Weather Online • © 2026 All rights reserved</p>
+            <p id="footer-timestamp">Last updated: Loading time...</p>
+            <p>This app uses live weather data and AI predictions for accurate forecasting.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>          font-size: 0.8rem;
             color: var(--text-muted);
             margin: 8px 0;
             font-style: italic;
