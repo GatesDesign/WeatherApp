@@ -618,8 +618,6 @@
             overflow-x: auto;
             padding: 10px 5px;
             gap: 15px;
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent) var(--element-bg);
         }
 
         .hourly-container::-webkit-scrollbar {
