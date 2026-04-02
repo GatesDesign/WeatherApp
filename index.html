@@ -80,9 +80,12 @@
 
             <div class="search-container">
                 <div class="search-box">
-                    <i class="fas fa-search"></i>
+                    <i class="fas fa-search search-box-icon"></i>
                     <input type="text" id="city-input"
-                        placeholder="Enter city name (e.g., Oshogbo, Abuja, Kano, Lagos)">
+                        placeholder="Enter city name (e.g., Oshogbo, Abuja, Kano, Lagos)"
+                        autocomplete="off"
+                        aria-label="Search for a city">
+                    <div class="search-suggestions" id="search-suggestions" hidden></div>
                 </div>
                 <button class="search-btn" id="search-btn">Search</button>
                 <button class="location-btn" id="location-btn">
@@ -102,20 +105,28 @@
 
 
             <div class="features-nav">
-                <button class="feature-btn active" onclick="showFeature('weather')">
+                <button class="feature-btn active" data-feature="weather" onclick="showFeature('weather', this)">
                     <i class="fas fa-cloud-sun"></i> Weather
                 </button>
-                <button class="feature-btn" onclick="showFeature('ai')">
+                <button class="feature-btn" data-feature="ai" onclick="showFeature('ai', this)">
                     <i class="fas fa-brain"></i> AI Insights
                 </button>
-                
-                <button class="feature-btn" onclick="showFeature('health')">
+                <button class="feature-btn" data-feature="comparison" onclick="showFeature('comparison', this)">
+                    <i class="fas fa-balance-scale"></i> Compare
+                </button>
+                <button class="feature-btn" data-feature="health" onclick="showFeature('health', this)">
                     <i class="fas fa-heartbeat"></i> Health Tips
                 </button>
-                <button class="feature-btn" onclick="showFeature('gamification')">
+                <button class="feature-btn" data-feature="analytics" onclick="showFeature('analytics', this)">
+                    <i class="fas fa-chart-line"></i> Analytics
+                </button>
+                <button class="feature-btn" data-feature="gamification" onclick="showFeature('gamification', this)">
                     <i class="fas fa-gamepad"></i> Challenges
                 </button>
-                <button class="feature-btn" onclick="showFeature('widget')">
+                <button class="feature-btn" data-feature="education" onclick="showFeature('education', this)">
+                    <i class="fas fa-book-open"></i> Learn
+                </button>
+                <button class="feature-btn" data-feature="widget" onclick="showFeature('widget', this)">
                     <i class="fas fa-code"></i> Widget
                 </button>
             </div>
@@ -292,6 +303,11 @@
                 </button>
             </div>
 
+            <div class="saved-locations">
+                <h3 class="section-title"><i class="fas fa-bookmark"></i> Saved Locations</h3>
+                <div class="saved-locations-list" id="saved-locations-list"></div>
+            </div>
+
             <div class="export-options">
                 <button class="export-btn" id="export-pdf">
                     <i class="fas fa-file-pdf"></i> Export as PDF
@@ -328,9 +344,33 @@
             <h2 class="section-title"><i class="fas fa-balance-scale"></i> Weather Comparison Tool</h2>
             <div class="comparison-controls">
                 <div class="search-box">
-                    <i class="fas fa-search"></i>
+                    <i class="fas fa-search search-box-icon"></i>
                     <input type="text" id="compare-city-input" placeholder="Add city to compare...">
-                    <button onclick="addCityToCompare()">Add</button>
+                    <button type="button" id="compare-add-btn">Add</button>
+                </div>
+                <div class="comparison-toolbar">
+                    <button type="button" class="comparison-action-btn" id="compare-current-btn">
+                        <i class="fas fa-location-crosshairs"></i> Add Current City
+                    </button>
+                    <button type="button" class="comparison-action-btn secondary" id="clear-comparison-btn">
+                        <i class="fas fa-trash-can"></i> Clear Board
+                    </button>
+                </div>
+                <p class="comparison-helper-text">
+                    Compare up to 5 cities side by side with live temperature, rain risk, comfort score, and a quick chart for demo-ready insights.
+                </p>
+                <div class="comparison-quick-picks" id="comparison-quick-picks"></div>
+            </div>
+            <div class="comparison-overview" id="comparison-overview"></div>
+            <div class="comparison-panels">
+                <div class="charts-container comparison-chart-panel">
+                    <h4 class="comparison-panel-title"><i class="fas fa-chart-column"></i> City Snapshot</h4>
+                    <canvas id="comparisonChartCanvas"></canvas>
+                    <div class="comparison-empty" id="comparison-chart-empty"></div>
+                </div>
+                <div class="comparison-panel">
+                    <h4 class="comparison-panel-title"><i class="fas fa-lightbulb"></i> Smart Compare Notes</h4>
+                    <div class="comparison-insights" id="comparison-insights"></div>
                 </div>
             </div>
             <div class="comparison-grid" id="comparison-grid">
@@ -341,11 +381,11 @@
         
         <div class="feature-section health-recommendations" id="health-section">
             <h2 class="section-title"><i class="fas fa-heartbeat"></i> Health & Wellness Recommendations</h2>
+            <div class="health-summary" id="health-summary"></div>
             <div class="health-tips-grid" id="health-tips">
                 
             </div>
 
-            <h3 class="section-title"><i class="fas fa-calendar-check"></i> Weather-based Activity Planner</h3>
             <div class="activity-planner" id="activity-planner">
                 
             </div>
@@ -354,6 +394,7 @@
         
         <div class="feature-section weather-games" id="gamification-section">
             <h2 class="section-title"><i class="fas fa-gamepad"></i> Weather Gamification</h2>
+            <div class="challenge-overview" id="challenge-overview"></div>
             <div class="achievements-grid" id="achievements-grid">
                 
             </div>
@@ -399,11 +440,22 @@
             </button>
         </div>
 
-        <div class="analytics-dashboard" id="analytics-section">
+        <div class="feature-section analytics-dashboard" id="analytics-section">
             <h3 class="section-title"><i class="fas fa-chart-line"></i> Advanced Analytics Dashboard</h3>
             <div class="analytics-grid" id="analytics-grid">
                 
             </div>
+            <div class="analytics-panels">
+                <div class="charts-container analytics-chart-panel">
+                    <h4 class="analytics-panel-title"><i class="fas fa-wave-square"></i> Hourly Risk Signals</h4>
+                    <canvas id="analyticsTrendCanvas"></canvas>
+                </div>
+                <div class="analytics-panel analytics-insights-panel">
+                    <h4 class="analytics-panel-title"><i class="fas fa-lightbulb"></i> Forecast Breakdown</h4>
+                    <div class="analytics-breakdown" id="analytics-breakdown"></div>
+                </div>
+            </div>
+            <div class="analytics-timeline" id="analytics-timeline"></div>
         </div>
 
         <div class="developer-api" id="api-section">
@@ -443,8 +495,8 @@ GET /api/v1/weather?city=London&units=metric
             </button>
         </div>
 
-        <div class="weather-education" id="education-section">
-            <h3 class="section-title"><i class="fas fa-podcast"></i> Weather Podcast & Educational Content</h3>
+        <div class="feature-section weather-education" id="education-section">
+            <h3 class="section-title"><i class="fas fa-video"></i> Weather Videos & Educational Content</h3>
             <div class="episode-list" id="episode-list">
                 
             </div>
